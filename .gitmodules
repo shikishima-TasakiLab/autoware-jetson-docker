@@ -1,0 +1,3 @@
+[submodule "docker/src-ros"]
+	path = docker/src-ros
+	url = https://github.com/shikishima-TasakiLab/ros-jetson-docker.git
