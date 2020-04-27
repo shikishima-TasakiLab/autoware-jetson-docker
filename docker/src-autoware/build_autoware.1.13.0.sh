@@ -1,6 +1,6 @@
 #!/bin/bash
 
-rm -rf /home/ros/catkin_ws
+sudo rm -rf /home/ros/catkin_ws
 
 sudo apt update
 sudo apt-get install -y \
