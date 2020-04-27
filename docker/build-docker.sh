@@ -38,6 +38,11 @@ ROS_TAG="melodic-desktop-full"
 IMAGE_EXIST=$(docker images | grep ${ROS_IMAGE} | grep ${ROS_TAG})
 if [[ -z ${IMAGE_EXIST} ]]; then
     ${BUILD_DIR}/src-ros/docker/build-docker.sh
+    if [[ $? != 0 ]]; then
+        echo "エラーにより中断しました．"
+        cd ${CURRENT_DIR}
+        exit 1
+    fi
 fi
 
 XSOCK="/tmp/.X11-unix"
