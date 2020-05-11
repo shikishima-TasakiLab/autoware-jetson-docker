@@ -1,0 +1,118 @@
+booted_cmds:
+  names: []
+calibration_publisher:
+  camera_frame: camera
+  camera_id: ''
+  camera_info_topic: /camera_info
+  file: ''
+  image_topic_src: /image_raw
+  projection_matrix_topic: /projection_matrix
+  publish_camera_info: true
+  publish_extrinsic_mat: true
+  register_lidar2camera_tf: true
+  target_frame: velodyne
+car_dpm:
+  Lambda: 10
+  group_threshold: 0.1
+  num_bins: 9
+  num_cells: 8
+  score_threshold: -0.5
+car_fusion:
+  car: true
+  dispersion: 1.0
+  max_height: 2.0
+  max_low_height: -1.0
+  min_low_height: -1.5
+  min_points: 2
+  pedestrian: false
+  sync: false
+car_kf:
+  camera_id: ''
+  carHEAD: true
+  default_lifespan: 8
+  error_estimate_covariance: 1000000.0
+  initial_lifespan: 4
+  measurement_noise_covariance: 25.0
+  noise_covariance: 1.0
+  orb_features: 2000
+  pedestrian: false
+  percentage_of_overlapping: 0.0
+  sync: false
+  use_orb: 0
+detection_qs:
+  file: ''
+lanelet_map:
+  file_name: ''
+localization_qs:
+  file: ''
+map_qs:
+  file: ''
+mission_planning_qs:
+  file: ''
+motion_planning_qs:
+  file: ''
+pcd_binarizer:
+  path_pcd_binarizer: ''
+  point_type: !!python/unicode 'PointXYZ'
+pcd_filter:
+  leaf_size: 0.2
+  path_pcd_filter: ''
+  point_type: !!python/unicode 'PointXYZ'
+pedestrian_dpm:
+  Lambda: 10
+  group_threshold: 0.3
+  num_bins: 9
+  num_cells: 8
+  score_threshold: 0.6
+pedestrian_fusion:
+  dispersion: 1.0
+  max_height: 2.0
+  max_low_height: -1.0
+  min_low_height: -1.5
+  min_points: 2
+pedestrian_kf:
+  default_lifespan: 8
+  error_estimate_covariance: 1000000.0
+  initial_lifespan: 4
+  measurement_noise_covariance: 25.0
+  noise_covariance: 1.0
+  orb_features: 2000
+  percentage_of_overlapping: 0.0
+  use_orb: 0
+play_rosbag_play:
+  file: ''
+  rate: ''
+  repeat: false
+  start: 0
+point_cloud:
+  path_area_list: None
+  path_area_list_cmd_param: null
+  path_pcd: ''
+  scene_num: noupdate
+points_image:
+  camera_id: ''
+  sync: false
+sensing_qs:
+  file: ''
+setup_tf:
+  frame_id: /base_link
+  localizer_cmd_param: /velodyne
+  localizer_rosparam: velodyne
+  period_in_ms: 10
+  pitch: 0.0
+  roll: 0.0
+  x: 1.2
+  y: 0.0
+  yaw: 0.0
+  z: 2.0
+tf:
+  file: ''
+vector_map:
+  path_vec: ''
+vehicle_info:
+  info_path: ''
+vehicle_model:
+  model_path: ''
+virtual_scan_image:
+  camera_id: ''
+  sync: false

@@ -4,6 +4,7 @@ AUTOWARE_VERSION="1.13.0"
 AUTOWARE_LAUNCH="on"
 
 PROG_NAME=$(basename $0)
+RUN_DIR=$(dirname $(readlink -f $0))
 
 function usage_exit {
   cat <<_EOS_ 1>&2
@@ -54,9 +55,11 @@ XSOCK="/tmp/.X11-unix"
 XAUTH="/tmp/.docker.xauth"
 
 HOST_WS=$(dirname $(dirname $(readlink -f $0)))/shared_dir
+PARAM_YML=${RUN_DIR}/autoware_param.yaml
 
 DOCKER_VOLUME="-v ${XSOCK}:${XSOCK}:rw"
 DOCKER_VOLUME="${DOCKER_VOLUME} -v ${XAUTH}:${XAUTH}:rw"
+DOCKER_VOLUME="${DOCKER_VOLUME} -v ${PARAM_YML}:/home/ros/autoware.ai/install/runtime_manager/lib/runtime_manager/param.yaml:rw"
 DOCKER_VOLUME="${DOCKER_VOLUME} -v ${HOST_WS}:/home/ros/shared_dir:rw"
 
 DOCKER_ENV="-e XAUTHORITY=${XAUTH}"
