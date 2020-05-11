@@ -46,3 +46,5 @@ echo 'source /home/ros/autoware.ai/install/setup.bash' >> /home/ros/.bashrc
 
 cp -v /tmp/src-autoware/runtime_manager.launch ~/autoware.ai/
 sudo cp -v /tmp/src-autoware/entrypoint.sh /tmp/
+mkdir /home/ros/.rviz
+cp -v /home/ros/autoware.ai/src/autoware/documentation/autoware_quickstart_examples/config/default.rviz /home/ros/.rviz/
