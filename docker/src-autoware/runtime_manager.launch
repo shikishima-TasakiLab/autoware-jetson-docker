@@ -1,3 +1,0 @@
-<launch>
-    <node name="run" pkg="runtime_manager" type="runtime_manager_dialog.py" />
-</launch>

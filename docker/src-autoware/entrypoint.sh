@@ -13,6 +13,10 @@ cd /home/ros
 source /opt/ros/melodic/setup.bash
 source /home/ros/autoware.ai/install/setup.bash
 
+echo ""
+echo "Autoware"
+echo ""
+
 if [ -z "$1" ]; then
     set - "/bin/bash" -l
 fi
