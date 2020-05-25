@@ -5,6 +5,10 @@ CURRENT_DIR=$(pwd)
 USER_ID=$(id -u)
 PROG_NAME=$(basename $0)
 
+ntr_arr=( $(echo $(cat /etc/nv_tegra_release) | tr -s ',' ' ') )
+MAJOR_VERSION=${ntr_arr[1]}
+MINOR_VERSION=${ntr_arr[4]}
+
 function usage_exit {
   cat <<_EOS_ 1>&2
   Usage: $PROG_NAME [OPTIONS...]
@@ -34,7 +38,7 @@ while (( $# > 0 )); do
 done
 
 ROS_IMAGE="jetson/ros"
-ROS_TAG="melodic-desktop-full"
+ROS_TAG="${MAJOR_VERSION,,}.${MINOR_VERSION}-melodic"
 IMAGE_EXIST=$(docker images | grep ${ROS_IMAGE} | grep ${ROS_TAG})
 if [[ -z ${IMAGE_EXIST} ]]; then
     ${BUILD_DIR}/src-ros/docker/build-docker.sh
@@ -98,7 +102,7 @@ docker commit \
     -m "Autoware for Jetson" \
     -c 'ENTRYPOINT ["/tmp/entrypoint.sh"]' \
     ${CONTAINER_ID} \
-    jetson/autoware:${AUTOWARE_VERSION}
+    jetson/autoware:${MAJOR_VERSION,,}.${MINOR_VERSION}-${AUTOWARE_VERSION}
 
 CONTAINER_EXIST=$(docker ps -a | grep ${CONTAINER_NAME})
 if [[ -n ${CONTAINER_EXIST} ]]; then
