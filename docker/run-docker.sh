@@ -75,13 +75,15 @@ DOCKER_IMAGE="jetson/autoware:${AUTOWARE_VERSION}"
 XSOCK="/tmp/.X11-unix"
 XAUTH="/tmp/.docker.xauth"
 
-HOST_WS=$(dirname $(dirname $(readlink -f $0)))/shared_dir
+HOST_WS=$(dirname $(dirname $(readlink -f $0)))/catkin_ws
+HOST_SH=$(dirname $(dirname $(readlink -f $0)))/shared_dir
 cp ${PARAM_YML} ${RUN_DIR}/src-autoware/param.yaml
 
 DOCKER_VOLUME="-v ${XSOCK}:${XSOCK}:rw"
 DOCKER_VOLUME="${DOCKER_VOLUME} -v ${XAUTH}:${XAUTH}:rw"
 DOCKER_VOLUME="${DOCKER_VOLUME} -v ${RUN_DIR}/src-autoware/param.yaml:/home/ros/autoware.ai/install/runtime_manager/lib/runtime_manager/param.yaml:rw"
-DOCKER_VOLUME="${DOCKER_VOLUME} -v ${HOST_WS}:/home/ros/shared_dir:rw"
+DOCKER_VOLUME="${DOCKER_VOLUME} -v ${HOST_WS}:/home/ros/catkin_ws:rw"
+DOCKER_VOLUME="${DOCKER_VOLUME} -v ${HOST_SH}:/home/ros/shared_dir:rw"
 
 DOCKER_ENV="-e XAUTHORITY=${XAUTH}"
 DOCKER_ENV="${DOCKER_ENV} -e DISPLAY=$DISPLAY"
