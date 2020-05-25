@@ -9,6 +9,10 @@ RUN_DIR=$(dirname $(readlink -f $0))
 PARAM_YML="${RUN_DIR}/autoware-param/param_init.yaml"
 SAVE_PATH=""
 
+ntr_arr=( $(echo $(cat /etc/nv_tegra_release) | tr -s ',' ' ') )
+MAJOR_VERSION=${ntr_arr[1]}
+MINOR_VERSION=${ntr_arr[4]}
+
 function usage_exit {
   cat <<_EOS_ 1>&2
   Usage: $PROG_NAME [OPTIONS...]
@@ -70,7 +74,7 @@ while (( $# > 0 )); do
     fi
 done
 
-DOCKER_IMAGE="jetson/autoware:${AUTOWARE_VERSION}"
+DOCKER_IMAGE="jetson/autoware:${MAJOR_VERSION,,}.${MINOR_VERSION}-${AUTOWARE_VERSION}"
 
 XSOCK="/tmp/.X11-unix"
 XAUTH="/tmp/.docker.xauth"
