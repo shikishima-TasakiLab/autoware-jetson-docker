@@ -76,7 +76,6 @@ XSOCK="/tmp/.X11-unix"
 XAUTH="/tmp/.docker.xauth"
 
 HOST_WS=$(dirname $(dirname $(readlink -f $0)))/shared_dir
-PARAM_YML=${RUN_DIR}/param/param_init.yaml
 cp ${PARAM_YML} ${RUN_DIR}/src-autoware/param.yaml
 
 DOCKER_VOLUME="-v ${XSOCK}:${XSOCK}:rw"
