@@ -1,6 +1,6 @@
 #!/bin/bash
 CONTAINER_NAME="autoware"
-AUTOWARE_VERSION="1.13.0"
+AUTOWARE_VERSION="1.14.0"
 AUTOWARE_LAUNCH="on"
 
 PROG_NAME=$(basename $0)

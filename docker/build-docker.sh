@@ -1,6 +1,6 @@
 #!/bin/bash
 BUILD_DIR=$(dirname $(readlink -f $0))
-AUTOWARE_VERSION="1.13.0"
+AUTOWARE_VERSION="1.14.0"
 CURRENT_DIR=$(pwd)
 USER_ID=$(id -u)
 PROG_NAME=$(basename $0)

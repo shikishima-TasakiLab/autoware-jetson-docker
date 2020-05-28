@@ -4,9 +4,6 @@ sudo rm -rf /home/ros/catkin_ws
 
 sudo apt update
 sudo apt-get install -y \
-    libcanberra-gtk-module \
-    libcanberra-gtk3-0 \
-    libcanberra-gtk3-module \
     python-catkin-pkg \
     python-rosdep \
     ros-melodic-catkin \
