@@ -26,7 +26,6 @@ function usage_exit {
   OPTIONS:
     -h, --help                      このヘルプを表示
     -l, --launch {on|off}           runtime_managerの起動（既定値：${AUTOWARE_LAUNCH}）
-    -v, --version AUTOWARE_VERSION  Autowareのバージョンを指定
     -p, --param FILE                読み込むAutowareの設定ファイルを指定
     -s, --save FILE                 Autowareの設定ファイルの保存先を指定
     -n, --name NAME                 コンテナの名前を指定
@@ -44,13 +43,6 @@ while (( $# > 0 )); do
             usage_exit
         fi
         AUTOWARE_LAUNCH=$2
-        shift 2
-    elif [[ $1 == "--version" ]] || [[ $1 == "-v" ]]; then
-        if [[ $2 == -* ]] || [[ $2 == *- ]]; then
-            echo "無効なパラメータ： $1 $2"
-            usage_exit
-        fi
-        AUTOWARE_VERSION=$2
         shift 2
     elif [[ $1 == "--param" ]] || [[ $1 == "-p" ]]; then
         if [[ -f $2 ]]; then

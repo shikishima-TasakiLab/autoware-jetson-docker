@@ -33,7 +33,6 @@ git clone --recursive https://github.com/shikishima-TasakiLab/autoware-jetson-do
     |-----------------|----------|---------------------------------|----------|--------------------|
     |`-h`, `--help`   |なし      |ヘルプを表示                       |なし      |`-h`                |
     |`-l`, `--launch` |{on\|off} |runtime_managerの起動             |`on`      |`-l off`            |
-    |`-v`, `--version`|VERSION   |Autowareのバージョンを指定         |`1.13.0`  |`-v 1.12.0`         |
     |`-p`, `--param`  |FILE      |読み込むAutowareの設定ファイルを指定|`./docker/autoware-param/param_init.yaml`|`-p robot_1.yaml`|
     |`-s`, `--save`   |FILE      |Autowareの設定ファイルの保存先を指定|なし      |`-s robot_1.yaml`|
     |`-n`, `--name`   |NAME      |コンテナの名前を指定               |`autoware`|`-n autoware-master`|
