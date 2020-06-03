@@ -46,7 +46,4 @@ git clone --recursive https://github.com/shikishima-TasakiLab/autoware-jetson-do
     |オプション       |パラメータ|説明                      |既定値|例                  |
     |-----------------|----------|--------------------------|------|--------------------|
     |`-h`, `--help`   |なし      |ヘルプを表示              |なし  |`-h`                |
-    |`-i`, `--id`     |ID        |コンテナのIDを指定        |なし  |`-i 4f8eb7aeded7`   |
-    |`-v`, `--version`|VERSION   |Autowareのバージョンを指定|なし  |`-v 1.13.0`         |
-    |`-n`, `--name`   |NAME      |コンテナの名前を指定      |なし  |`-n autoware-master`|
 

@@ -1,7 +1,8 @@
 #!/bin/bash
+
 CONTAINER_NAME="autoware"
-AUTOWARE_VERSION="1.14.0"
 AUTOWARE_LAUNCH="on"
+DOCKER_NET="host"
 
 PROG_NAME=$(basename $0)
 RUN_DIR=$(dirname $(readlink -f $0))
@@ -9,9 +10,15 @@ RUN_DIR=$(dirname $(readlink -f $0))
 PARAM_YML="${RUN_DIR}/autoware-param/param_init.yaml"
 SAVE_PATH=""
 
-ntr_arr=( $(echo $(cat /etc/nv_tegra_release) | tr -s ',' ' ') )
-MAJOR_VERSION=${ntr_arr[1]}
-MINOR_VERSION=${ntr_arr[4]}
+function usage_exit {
+  cat <<_EOS_ 1>&2
+  Usage: $PROG_NAME [OPTIONS...]
+  OPTIONS:
+    -h, --help              このヘルプを表示
+    -c, --container         コンテナの名前を設定します．
+_EOS_
+    exit 1
+}
 
 function usage_exit {
   cat <<_EOS_ 1>&2
@@ -74,26 +81,61 @@ while (( $# > 0 )); do
     fi
 done
 
-DOCKER_IMAGE="jetson/autoware:${MAJOR_VERSION,,}.${MINOR_VERSION}-${AUTOWARE_VERSION}"
+images="$(docker image ls jetson/autoware | grep jetson/autoware)"
+
+if [[ "${images}" == "" ]]; then
+    echo 'jetson/autoware のDockerイメージが見つかりませんでした．'
+    echo 'docker/build-docker.sh でイメージを作成するか，イメージをpullしてください．'
+    usage_exit
+fi
+
+declare -a images_list=()
+while read repo tag id created size ; do
+    images_list+=( "${repo}:${tag}" )
+done <<END
+${images}
+END
+
+if [[ ${#images_list[@]} -eq 1 ]]; then
+    DOCKER_IMAGE="${images_list[0]}"
+else
+    echo -e "番号\tイメージ:タグ"
+    cnt=0
+    for img in "${images_list[@]}"; do
+        echo -e "${cnt}:\t${img}"
+        cnt=$((${cnt}+1))
+    done
+    isnum=3
+    img_num=-1
+    while [[ ${isnum} -ge 2 ]] || [[ ${img_num} -ge ${cnt} ]] || [[ ${img_num} -lt 0 ]]; do
+        read -p "使用するコンテナの番号を入力してください: " img_num
+        expr ${img_num} + 1 > /dev/null 2>&1
+        isnum=$?
+    done
+    DOCKER_IMAGE="${images_list[${img_num}]}"
+fi
+echo ${DOCKER_IMAGE}
+
+if [[ ${CONTAINER_NAME} != "" ]]; then
+    CONTAINER_NAME="--name ${CONTAINER_NAME}"
+fi
 
 XSOCK="/tmp/.X11-unix"
 XAUTH="/tmp/.docker.xauth"
 
 HOST_WS=$(dirname $(dirname $(readlink -f $0)))/catkin_ws
-HOST_SH=$(dirname $(dirname $(readlink -f $0)))/shared_dir
+HOST_SD=$(dirname $(dirname $(readlink -f $0)))/shared_dir
 cp ${PARAM_YML} ${RUN_DIR}/src-autoware/param.yaml
 
 DOCKER_VOLUME="-v ${XSOCK}:${XSOCK}:rw"
 DOCKER_VOLUME="${DOCKER_VOLUME} -v ${XAUTH}:${XAUTH}:rw"
-DOCKER_VOLUME="${DOCKER_VOLUME} -v ${RUN_DIR}/src-autoware/param.yaml:/home/ros/autoware.ai/install/runtime_manager/lib/runtime_manager/param.yaml:rw"
 DOCKER_VOLUME="${DOCKER_VOLUME} -v ${HOST_WS}:/home/ros/catkin_ws:rw"
-DOCKER_VOLUME="${DOCKER_VOLUME} -v ${HOST_SH}:/home/ros/shared_dir:rw"
+DOCKER_VOLUME="${DOCKER_VOLUME} -v ${HOST_SD}:/home/ros/shared_dir:rw"
 
 DOCKER_ENV="-e XAUTHORITY=${XAUTH}"
 DOCKER_ENV="${DOCKER_ENV} -e DISPLAY=$DISPLAY"
+DOCKER_ENV="${DOCKER_ENV} -e USER_ID=$(id -u)"
 DOCKER_ENV="${DOCKER_ENV} -e TERM=xterm-256color"
-
-DOCKER_NET="host"
 
 DOCKER_CMD=""
 if [[ ${AUTOWARE_LAUNCH} == "on" ]]; then
@@ -104,14 +146,14 @@ touch ${XAUTH}
 xauth nlist $DISPLAY | sed -e 's/^..../ffff/' | xauth -f ${XAUTH} nmerge -
 
 docker run \
-    --rm \
     -it \
+    --rm \
     --gpus all \
     --privileged \
-    --name ${CONTAINER_NAME} \
+    ${CONTAINER_NAME} \
     --net ${DOCKER_NET} \
-    ${DOCKER_ENV} \
     ${DOCKER_VOLUME} \
+    ${DOCKER_ENV} \
     ${DOCKER_IMAGE} \
     ${DOCKER_CMD}
 
