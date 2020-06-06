@@ -148,9 +148,9 @@ fi
 if [[ ! -f ${ACONF} ]]; then
     touch ${ACONF}
     echo "default-server = unix:/tmp/pulseaudio.socket" > ${ACONF}
-    echo "autospawn = no" > ${ACONF}
-    echo "daemon-binary = /bin/true" > ${ACONF}
-    echo "enable-shm = false" > ${ACONF}
+    echo "autospawn = no" >> ${ACONF}
+    echo "daemon-binary = /bin/true" >> ${ACONF}
+    echo "enable-shm = false" >> ${ACONF}
 fi
 
 touch ${XAUTH}
