@@ -8,6 +8,9 @@ PROG_NAME=$(basename $0)
 ntr_arr=( $(echo $(cat /etc/nv_tegra_release) | tr -s ',' ' ') )
 MAJOR_VERSION=${ntr_arr[1]}
 MINOR_VERSION=${ntr_arr[4]}
+if [[ ${MINOR_VERSION} == '5.1' ]]; then
+    MINOR_VERSION='5.0'
+fi
 
 function usage_exit {
   cat <<_EOS_ 1>&2
