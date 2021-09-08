@@ -14,9 +14,9 @@ sudo apt-get install -y \
 pip3 install -U setuptools
 
 cd /tmp
-wget http://bitbucket.org/eigen/eigen/get/3.3.7.tar.gz
+wget https://gitlab.com/libeigen/eigen/-/archive/3.3.7/eigen-3.3.7.tar.gz
 mkdir eigen
-tar --strip-components=1 -xzvf 3.3.7.tar.gz -C eigen
+tar --strip-components=1 -xzvf eigen-3.3.7.tar.gz -C eigen
 cd eigen
 mkdir build
 cd build
@@ -24,12 +24,12 @@ cmake ..
 make
 sudo make install
 cd /tmp
-rm -rf 3.3.7.tar.gz eigen
+rm -rf eigen-3.3.7.tar.gz eigen
 
 cd
 mkdir -p autoware.ai/src
 cd autoware.ai
-wget -O autoware.ai.repos "https://gitlab.com/autowarefoundation/autoware.ai/autoware/raw/1.14.0/autoware.ai.repos?inline=false"
+wget -O autoware.ai.repos "https://raw.githubusercontent.com/Autoware-AI/autoware.ai/1.14.0/autoware.ai.repos"
 vcs import src < autoware.ai.repos
 rosdep update
 rosdep install -y --from-paths src --ignore-src --rosdistro melodic
